@@ -1,0 +1,34 @@
+<div style="max-width:600px;margin:40px auto;text-align:center;">
+  <h2>Intent Classifier UI</h2>
+  <p>Type a message and see predicted intent:</p>
+
+  <div style="margin-top: 1rem;">
+    <input
+      type="text"
+      [(ngModel)]="userText"
+      placeholder="Type your intent..."
+      style="width:70%;padding:10px;border-radius:6px;border:1px solid #ccc;"
+    />
+    <button (click)="sendMessage()" style="padding:10px 20px;margin-left:8px;">
+      Send
+    </button>
+  </div>
+
+  <!-- Loading state -->
+  <div *ngIf="loading" style="margin-top:1rem;color:gray;">
+    Predicting...
+  </div>
+
+  <!-- Prediction result -->
+ <div *ngIf="result && !result.error && !loading" style="margin-top:1.5rem;">
+  <h3>Prediction Result:</h3>
+  <p><b>Intent:</b> {{ result.intent }}</p>
+  <p><b>Confidence:</b> {{ result.confidence | number:'1.0-3' }}</p>
+  <p><b>Response:</b> {{ result.message }}</p>
+</div>
+
+  <!-- Error state -->
+  <div *ngIf="result?.error && !loading" style="margin-top:1rem;color:red;">
+    {{ result.error }}
+  </div>
+</div>

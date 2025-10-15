@@ -1,0 +1,36 @@
+# === Node / Angular frontend ===
+node_modules/
+dist/
+.angular/
+coverage/
+tmp/
+*.log
+
+# === Python backend ===
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+env/
+venv/
+*.egg-info/
+*.egg
+build/
+develop-eggs/
+.eggs/
+pip-wheel-metadata/
+*.log
+
+# === Models and logs ===
+models/
+logs/
+checkpoints/
+*.bin
+*.pt
+*.pth
+
+# === IDE and system ===
+.vscode/
+.idea/
+.DS_Store
