@@ -1,7 +1,10 @@
 config = {
     "model_name": "distilbert-base-uncased",
-    "epochs": 10,
-    "learning_rate": 5e-5,
-    "batch_size": 16,
     "max_length": 64,
+    "batch_size": 8,
+    "learning_rate": 3e-5,
+    "epochs": 6,
+    "weight_decay": 0.01,
+    "warmup_ratio": 0.1,
+    "seed": 42
 }

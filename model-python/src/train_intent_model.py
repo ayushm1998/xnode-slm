@@ -1,7 +1,7 @@
-# src/train_intent_model.py
 import os
 import random
 import torch
+import numpy as np
 from datasets import Dataset
 from transformers import (
     AutoTokenizer,
@@ -12,8 +12,10 @@ from transformers import (
 from sklearn.model_selection import train_test_split
 from synthetic_data import generate_samples, INTENTS
 from config import config
+from sklearn.metrics import accuracy_score
 
-# ✅ 1. Generate synthetic dataset
+
+#Generate synthetic dataset
 data = generate_samples(n_per_intent=40)
 texts = [d["text"] for d in data]
 labels = [list(INTENTS.keys()).index(d["intent"]) for d in data]
@@ -23,7 +25,7 @@ train_texts, val_texts, train_labels, val_labels = train_test_split(
     texts, labels, test_size=0.2, random_state=42
 )
 
-# ✅ 2. Tokenizer
+#Tokenizer
 tokenizer = AutoTokenizer.from_pretrained(config["model_name"])
 
 def tokenize(batch):
@@ -34,13 +36,20 @@ val_dataset = Dataset.from_dict({"text": val_texts, "label": val_labels})
 train_dataset = train_dataset.map(tokenize, batched=True)
 val_dataset = val_dataset.map(tokenize, batched=True)
 
-# ✅ 3. Model initialization
+#Model initialization
 num_labels = len(INTENTS)
 model = AutoModelForSequenceClassification.from_pretrained(
     config["model_name"], num_labels=num_labels
 )
 
-# ✅ 4. Training arguments
+torch.manual_seed(42)
+np.random.seed(42)
+random.seed(42)
+
+model.config.hidden_dropout_prob = 0.2
+model.config.attention_probs_dropout_prob = 0.2
+
+#Training arguments
 args = TrainingArguments(
     output_dir="./models/intent_classifier",
     evaluation_strategy="epoch",
@@ -55,14 +64,13 @@ args = TrainingArguments(
     logging_steps=10,
 )
 
-# ✅ 5. Compute accuracy
+#Compute accuracy
 def compute_metrics(eval_pred):
-    predictions, labels = eval_pred
-    preds = predictions.argmax(-1)
-    accuracy = (preds == labels).astype(float).mean().item()
-    return {"accuracy": accuracy}
+    preds, labels = eval_pred
+    preds = preds.argmax(-1)
+    return {"accuracy": accuracy_score(labels, preds)}
 
-# ✅ 6. Trainer
+#Trainer
 trainer = Trainer(
     model=model,
     args=args,
@@ -72,10 +80,10 @@ trainer = Trainer(
     compute_metrics=compute_metrics,
 )
 
-# ✅ 7. Train
+#Train
 trainer.train()
 
-# ✅ 8. Save model
+#Save model
 save_dir = "./models/intent_classifier"
 os.makedirs(save_dir, exist_ok=True)
 trainer.save_model(save_dir)

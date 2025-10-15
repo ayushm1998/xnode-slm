@@ -25,7 +25,7 @@ app.layout = html.Div([
 
     dcc.Interval(
         id="refresh-interval",
-        interval=5000,  # every 5s
+        interval=5000, 
         n_intervals=0
     )
 ])
@@ -78,4 +78,4 @@ def update_dashboard(n):
     ])
 
 if __name__ == "__main__":
-    app.run_server(debug=True, port=8050)
+    app.run(debug=True, port=8050)

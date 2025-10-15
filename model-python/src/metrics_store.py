@@ -1,4 +1,3 @@
-# src/metrics_store.py
 import threading
 
 class MetricsStore:
@@ -36,5 +35,5 @@ class MetricsStore:
         with self._lock:
             return self.data
 
-# ✅ Persistent global instance
+#Persistent global instance
 metrics_store = MetricsStore()

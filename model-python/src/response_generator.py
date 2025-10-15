@@ -1,4 +1,3 @@
-# src/response_generator.py
 import random
 
 TEMPLATES = {

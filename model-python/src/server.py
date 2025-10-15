@@ -5,18 +5,18 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification
 from src.metrics_store import metrics_store
 import torch, time
 
-# ---------- FastAPI setup ----------
+# FastAPI setup
 app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # allow Angular
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# ---------- Model loading ----------
+# Model loading 
 MODEL_PATH = "./models/intent_classifier"
 tokenizer = AutoTokenizer.from_pretrained(MODEL_PATH)
 model = AutoModelForSequenceClassification.from_pretrained(MODEL_PATH)
@@ -24,11 +24,11 @@ model.eval()
 
 INTENTS = ["greeting", "complaint", "feedback", "inquiry", "request", "apology"]
 
-# ---------- Input schema ----------
+#  Input schema 
 class PredictIn(BaseModel):
     text: str
 
-# ---------- Prediction endpoint ----------
+#  Prediction endpoint 
 @app.post("/predict")
 async def predict(data: PredictIn):
     start_time = time.time()  # start timer for latency
@@ -57,7 +57,7 @@ async def predict(data: PredictIn):
 
     latency_ms = (time.time() - start_time) * 1000
 
-    # ✅ Record metrics
+    #Record metrics
     metrics_store.record(intent, confidence, latency_ms)
 
     return {
@@ -67,13 +67,13 @@ async def predict(data: PredictIn):
     }
 
 
-# ---------- Metrics endpoint ----------
+#  Metrics endpoint 
 @app.get("/metrics")
 async def get_metrics():
     return metrics_store.summary()
 
 
-# ---------- Health check ----------
+#  Health check 
 @app.get("/")
 async def root():
     return {"status": "Intent model server running"}
