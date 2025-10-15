@@ -43,6 +43,28 @@ It unifies **Angular**, **Node.js**, **FastAPI**, and **Dash** to create an AI-d
 
 ---
 
+## Prerequisites
+
+Before running the project, ensure you have the following installed:
+
+1. **Python 3.10+** — required for FastAPI backend and Dash dashboard.  
+   Check with: `python3 --version`
+
+2. **Node.js 18+** and **npm** — required for Node.js middleware and Angular frontend.  
+   Check with: `node -v` and `npm -v`
+
+3. **Angular CLI** — install globally if not available:  
+   ```
+   npm install -g @angular/cli
+   ```
+
+4. **Git** — to manage the repository and version control.  
+   Check with: `git --version`
+
+5. **Virtual Environment (optional)** — recommended for backend isolation.
+
+---
+
 ## One-Command Setup (Recommended)
 
 You can start the **entire system** — backend, middleware, frontend, and dashboard — in **one go** using the provided script.
@@ -188,8 +210,7 @@ M.S. Computer Science, California State University, Sacramento
 - Dashboard visualizes live metrics after message flow  
 - README, logs, and screenshots included for evaluation  
 
-
 ---
 
 **Final Notes:**  
-This project demonstrates a complete ML workflow pipeline, from training to inference, middleware integration, and real-time performance monitoring, fully automatable through `run.sh`.
+This project demonstrates a complete ML workflow pipeline — from model training to inference, middleware integration, and real-time monitoring — fully automated through `run.sh`.
