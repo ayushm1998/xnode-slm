@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # -------------------------------------
-# 🚀 XNode SLM - Full Stack Runner
+#  XNode SLM - Full Stack Runner
 # -------------------------------------
 
 set -e  # Exit immediately on error
@@ -10,11 +10,11 @@ CYAN='\033[0;36m'
 NC='\033[0m'
 
 echo -e "${CYAN}============================================"
-echo -e "     🚀 Starting XNode Smart Language Model"
+echo -e "     Starting XNode Smart Language Model"
 echo -e "============================================${NC}"
 
 # --- FASTAPI BACKEND ---
-echo -e "${GREEN}🔹 Activating Python virtual environment...${NC}"
+echo -e "${GREEN}Activating Python virtual environment...${NC}"
 cd model-python
 if [ ! -d ".venv" ]; then
   echo -e "${CYAN}Creating virtual environment...${NC}"
@@ -22,7 +22,7 @@ if [ ! -d ".venv" ]; then
 fi
 source .venv/bin/activate
 
-echo -e "${GREEN}🔹 Installing backend dependencies...${NC}"
+echo -e "${GREEN}Installing backend dependencies...${NC}"
 pip install -q fastapi uvicorn torch transformers datasets scikit-learn dash plotly pandas requests
 
 echo -e "${GREEN}Starting FastAPI backend on port 5000...${NC}"
@@ -73,7 +73,7 @@ sleep 4
 cd ..
 
 # --- OPEN ALL SERVICES ---
-echo -e "${CYAN}🌐 Opening all services in browser...${NC}"
+echo -e "${CYAN}Opening all services in browser...${NC}"
 open http://127.0.0.1:5000
 open http://localhost:3000
 open http://localhost:4200
